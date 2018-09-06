@@ -1,0 +1,60 @@
+#######################################
+# Syntax Coloring DFRobot_AS3935
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DF_AS3935_I2C	KEYWORD1
+I2C	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################	
+
+begin	KEYWORD2
+end	KEYWORD2
+timeOut	KEYWORD2
+setSpeed	KEYWORD2
+pullup	KEYWORD2
+scan	KEYWORD2
+write	KEYWORD2
+read	KEYWORD2
+available	KEYWORD2
+receive	KEYWORD2
+AS3935_DefInit	KEYWORD2
+AS3935_DefInit	KEYWORD2
+_AS3935_Reset	KEYWORD2
+_CalRCO	KEYWORD2
+AS3935_PowerUp	KEYWORD2
+AS3935_PowerDown	KEYWORD2
+AS3935_DisturberEn	KEYWORD2
+AS3935_DisturberDis	KEYWORD2
+AS3935_SetIRQ_Output_Source	KEYWORD2
+AS3935_SetTuningCaps	KEYWORD2
+AS3935_GetInterruptSrc	KEYWORD2
+AS3935_GetLightningDistKm	KEYWORD2
+AS3935_SetMinStrikes	KEYWORD2
+AS3935_SetIndoors	KEYWORD2
+AS3935_SetOutdoors	KEYWORD2
+AS3935_ClearStatistics	KEYWORD2
+AS3935_GetNoiseFloorLvl	KEYWORD2
+AS3935_SetNoiseFloorLvl	KEYWORD2
+AS3935_GetWatchdogThreshold	KEYWORD2
+AS3935_SetWatchdogThreshold	KEYWORD2
+AS3935_GetSpikeRejection	KEYWORD2
+AS3935_SetSpikeRejection	KEYWORD2
+AS3935_SetLCO_FDIV	KEYWORD2
+AS3935_PrintAllRegs	KEYWORD2
+AS3935_ManualCal	KEYWORD2
+AS3935_SetI2CAddress	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+AS3935_ADD1	LITERAL1
+AS3935_ADD2	LITERAL1
+AS3935_ADD3	LITERAL1
