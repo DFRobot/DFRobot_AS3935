@@ -25,9 +25,12 @@ Input commands and read data from AS3935 modules
 
 ## Feature
 
-1. test <br>
-2. test <br>
-3. test <br>
+1. Lightning sensor warns of lightning storm activity within a radius of 40km <br>
+2. Distance estimation to the head of the storm from overhead to 40km in 15 steps <br>
+3. Detects both cloud-to-ground and intra-cloud(cloud-to-cloud) flashes <br>
+4. Embedded man-made disturber rejection algorithm <br>
+5. Programmable detection levels enable threshold setting for optimal controls <br>
+6. Three i2c interfaces, switch freely to avoid site conflicts <br>
 
 ## Installation
 
@@ -85,16 +88,16 @@ void AS3935_PrintAllRegs(void);
 uint8_t AS3935_GetInterruptSrc(void);
 
 /*
- * @brief manual calibration
+ * @brief get lightning distance
  * 
- * @param
+ * @return unit kilometer
  */
 uint8_t AS3935_GetLightningDistKm(void);
 
 /*
- * @brief get rid of non-distance data
+ * @brief get lightning energy intensity
  * 
- * @return Unit kilometer
+ * @return lightning energy intensity(0-1000)
  */
 uint32_t AS3935_GetStrikeEnergyRaw(void);
 
