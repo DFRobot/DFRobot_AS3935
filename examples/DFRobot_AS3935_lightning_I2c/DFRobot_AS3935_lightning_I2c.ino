@@ -1,5 +1,5 @@
 /*!
- * file as3935_lightning_i2c_nocal.ino
+ * file DFRobot_AS3935_lightning_I2c.ino
  *
  * On The Lightning Sensor 
  * This sensor can detect lightning and display the distance and intensity of the lightning without the
