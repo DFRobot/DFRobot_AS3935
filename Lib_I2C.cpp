@@ -60,7 +60,7 @@
 #endif
 
 #include <inttypes.h>
-#include "I2C.h"
+#include "Lib_I2C.h"
 
 uint8_t I2C::bytesAvailable = 0;
 uint8_t I2C::bufferIndex = 0;

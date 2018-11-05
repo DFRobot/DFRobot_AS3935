@@ -1,17 +1,12 @@
 #include "DFRobot_AS3935_I2c.h"
 
-DF_AS3935_I2C::DF_AS3935_I2C(uint8_t IRQx, uint8_t SIx, uint8_t DEVADDx)
+DF_AS3935_I2C::DF_AS3935_I2C(uint8_t IRQx, uint8_t DEVADDx)
 {
 	_devadd = DEVADDx;
-	_si  = SIx;
 	_irq = IRQx;
 	
-	// initalize the chip select pins
-	pinMode(_si, OUTPUT);
+	// initalize the IRQ pins
 	pinMode(_irq, INPUT);
-	
-	// set output pin initical condition
-	digitalWrite(_si, HIGH);		// set pin high for I2C mode
 
 }
 
@@ -310,7 +305,7 @@ void DF_AS3935_I2C::AS3935_SetLCO_FDIV(uint8_t fdiv)
 	// default value: 00
 	// set 0, 1, 2 or 3 for ratios of 16, 32, 64 and 128, respectively. 
 	// See pg 23, Table 20 for more info.
-	_sing_reg_write(0x03, 0xC0, ((fdiv & 0x03) << 5));
+	_sing_reg_write(0x03, 0xC0, ((fdiv & 0x03) << 6));
 }
 
 void DF_AS3935_I2C::AS3935_PrintAllRegs(void)

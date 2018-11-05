@@ -5,17 +5,17 @@
 #include "avr/pgmspace.h"
 #include "util/delay.h"
 #include "stdlib.h"
-#include "I2C.h"
+#include "Lib_I2C.h"
 
-// I2c address
-#define AS3935_ADD3           0x03     // x03 - A0->high A1->high
-#define AS3935_ADD2           0x02     // x02 - A0->low  A1->high
-#define AS3935_ADD1           0x01     // x01 - A0->high A1->low
+// I2C address
+#define AS3935_ADD1           0x01     // A0=high, A1=low
+#define AS3935_ADD3           0x03     // A0=high, A1=high
+#define AS3935_ADD2           0x02     // A0=low, A1=high
 
 class DF_AS3935_I2C
 {
  public:
-	DF_AS3935_I2C(uint8_t IRQx, uint8_t SIx, uint8_t DEVADDx);
+	DF_AS3935_I2C(uint8_t IRQx, uint8_t DEVADDx);
 	/*! Set i2c address */
 	void AS3935_SetI2CAddress(uint8_t DEVADDx);
 	/*! Manual calibration */
