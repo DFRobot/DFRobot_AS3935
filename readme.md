@@ -45,23 +45,22 @@ Download the library ZIP file and unzip it to the Arduino folder of the library.
 /*
  * @brief AS3935 object
  *
- * @param IRQx        irq pin
- *        SIx         si pin
- *        DEVADDx     i2c address
+ * @param irqx        irq pin
+ *        devAddx     i2c address
  */
-DF_AS3935_I2C(uint8_t IRQx, uint8_t SIx, uint8_t DEVADDx);
+DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
 
 /*
  * @brief reset registers to default
  */
-void AS3935_DefInit(void);
+void AS3935DefInit(void);
 
 /*
  * @brief set i2c address
  *
- * @param DEVADDx     i2c address  
+ * @param devAddx     i2c address  
  */
-void AS3935_SetI2CAddress(uint8_t DEVADDx);
+void AS3935SetI2CAddress(uint8_t devAddx);
 
 /*
  * @brief manual calibration
@@ -70,12 +69,12 @@ void AS3935_SetI2CAddress(uint8_t DEVADDx);
  *        location       location
  *        disturber      disturber
  */
-void AS3935_ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
+void AS3935ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
 
 /*
  * @brief view register data
  */
-void AS3935_PrintAllRegs(void);
+void AS3935PrintAllRegs(void);
 
 /*
  * @brief get interrupt source
@@ -85,21 +84,46 @@ void AS3935_PrintAllRegs(void);
  *         2    disturber detected
  *         3    Noise level too high
  */
-uint8_t AS3935_GetInterruptSrc(void);
+uint8_t AS3935GetInterruptSrc(void);
 
 /*
  * @brief get lightning distance
  * 
  * @return unit kilometer
  */
-uint8_t AS3935_GetLightningDistKm(void);
+uint8_t AS3935GetLightningDistKm(void);
 
 /*
  * @brief get lightning energy intensity
  * 
  * @return lightning energy intensity(0-1000)
  */
-uint32_t AS3935_GetStrikeEnergyRaw(void);
+uint32_t AS3935GetStrikeEnergyRaw(void);
+
+/*
+ * @brief Set to the outdoor model
+ */
+void AS3935SetOutdoors(void);
+
+/*
+ * @brief Set to the indoor model
+ */
+void AS3935SetIndoors(void);
+
+/*
+ * @brief Print all register values
+ */
+void AS3935PrintAllRegs(void);
+
+/*
+ * @brief Disturber detection enabled
+ */
+void DFRobot_AS3935_I2C::AS3935DisturberEn(void);
+
+/*
+ * @brief Disturber detection disenabled
+ */
+void DFRobot_AS3935_I2C::AS3935DisturberDis(void);
 
 ```
 
@@ -114,4 +138,4 @@ Arduino uno |       √      |             |            |
 
 ## Credits
 
-Written by DFRobot, 2018. (Welcome to our [website](https://www.dfrobot.com/))
+Written by DFRobot_JH, 2018. (Welcome to our [website](https://www.dfrobot.com/))

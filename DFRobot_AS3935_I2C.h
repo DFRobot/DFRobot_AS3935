@@ -1,5 +1,5 @@
-#ifndef DF_AS3935_I2C_h
-#define DF_AS3935_I2C_h
+#ifndef DFRobot_AS3935_I2C_h
+#define DFRobot_AS3935_I2C_h
 
 #include "Arduino.h"
 #include "avr/pgmspace.h"
@@ -12,48 +12,48 @@
 #define AS3935_ADD3           0x03     // A0=high, A1=high
 #define AS3935_ADD2           0x02     // A0=low, A1=high
 
-class DF_AS3935_I2C
+class DFRobot_AS3935_I2C
 {
  public:
-	DF_AS3935_I2C(uint8_t IRQx, uint8_t DEVADDx);
+	DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
 	/*! Set i2c address */
-	void AS3935_SetI2CAddress(uint8_t DEVADDx);
+	void AS3935SetI2CAddress(uint8_t devAddx);
 	/*! Manual calibration */
-	void AS3935_ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
+	void AS3935ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
 	/*! reset registers to default */
-	void AS3935_DefInit(void);
-	void AS3935_PowerUp(void);
-	void AS3935_PowerDown(void);
-	void AS3935_DisturberEn(void);
-	void AS3935_DisturberDis(void);
-	void AS3935_SetIRQ_Output_Source(uint8_t irq_select);
-	void AS3935_SetTuningCaps(uint8_t cap_val);
+	void AS3935DefInit(void);
+	void AS3935PowerUp(void);
+	void AS3935PowerDown(void);
+	void AS3935DisturberEn(void);
+	void AS3935DisturberDis(void);
+	void AS3935SetIRQOutputSource(uint8_t irqSelect);
+	void AS3935SetTuningCaps(uint8_t capVal);
 	/*! 0 = unknown src, 1 = lightning detected, 2 = disturber, 3 = Noise level too high */
-	uint8_t AS3935_GetInterruptSrc(void);
+	uint8_t AS3935GetInterruptSrc(void);
 	/*! Get rid of non-distance data */
-	uint8_t AS3935_GetLightningDistKm(void);
+	uint8_t AS3935GetLightningDistKm(void);
 	/*! Get lightning energy intensity */
-	uint32_t AS3935_GetStrikeEnergyRaw(void);
-	uint8_t AS3935_SetMinStrikes(uint8_t min_strk);
-	void AS3935_ClearStatistics(void);
-	void AS3935_SetIndoors(void);
-	void AS3935_SetOutdoors(void);
-	uint8_t AS3935_GetNoiseFloorLvl(void);
-	void AS3935_SetNoiseFloorLvl(uint8_t nf_sel);
-	uint8_t AS3935_GetWatchdogThreshold(void);
-	void AS3935_SetWatchdogThreshold(uint8_t wdth);
-	uint8_t AS3935_GetSpikeRejection(void);
-	void AS3935_SetSpikeRejection(uint8_t srej);
-	void AS3935_SetLCO_FDIV(uint8_t fdiv);
+	uint32_t AS3935GetStrikeEnergyRaw(void);
+	uint8_t AS3935SetMinStrikes(uint8_t minStrk);
+	void AS3935ClearStatistics(void);
+	void AS3935SetIndoors(void);
+	void AS3935SetOutdoors(void);
+	uint8_t AS3935GetNoiseFloorLvl(void);
+	void AS3935SetNoiseFloorLvl(uint8_t nfSel);
+	uint8_t AS3935GetWatchdogThreshold(void);
+	void AS3935SetWatchdogThreshold(uint8_t wdth);
+	uint8_t AS3935GetSpikeRejection(void);
+	void AS3935SetSpikeRejection(uint8_t srej);
+	void AS3935SetLcoFdiv(uint8_t fdiv);
 	/*! View register data */
-	void AS3935_PrintAllRegs(void);
+	void AS3935PrintAllRegs(void);
 	
  private:
-	uint8_t _irq, _si, _devadd;
-	uint8_t _sing_reg_read(uint8_t RegAdd);
-	void _sing_reg_write(uint8_t RegAdd, uint8_t DataMask, uint8_t RegData);
-	void _AS3935_Reset(void);
-	void _CalRCO(void);
+	uint8_t irq, devAdd;
+	uint8_t singRegRead(uint8_t regAdd);
+	void singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData);
+	void AS3935Reset(void);
+	void calRCO(void);
 };
 
 #endif

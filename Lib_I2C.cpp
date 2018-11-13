@@ -555,8 +555,8 @@ uint8_t I2C::read(uint8_t address, uint8_t registerAddress, uint8_t numberBytes,
 uint8_t I2C::start()
 {
   unsigned long startingTime = millis();
-  TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-  while (!(TWCR & (1<<TWINT)))
+  TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+  while (!(TWCR & (1 << TWINT)))
   {
     if(!timeOutDelay){continue;}
     if((millis() - startingTime) >= timeOutDelay)
@@ -583,8 +583,8 @@ uint8_t I2C::sendAddress(uint8_t i2cAddress)
 {
   TWDR = i2cAddress;
   unsigned long startingTime = millis();
-  TWCR = (1<<TWINT) | (1<<TWEN);
-  while (!(TWCR & (1<<TWINT)))
+  TWCR = (1 << TWINT) | (1 << TWEN);
+  while (!(TWCR & (1 << TWINT)))
   {
     if(!timeOutDelay){continue;}
     if((millis() - startingTime) >= timeOutDelay)
@@ -615,8 +615,8 @@ uint8_t I2C::sendByte(uint8_t i2cData)
 {
   TWDR = i2cData;
   unsigned long startingTime = millis();
-  TWCR = (1<<TWINT) | (1<<TWEN);
-  while (!(TWCR & (1<<TWINT)))
+  TWCR = (1 << TWINT) | (1 << TWEN);
+  while (!(TWCR & (1 << TWINT)))
   {
     if(!timeOutDelay){continue;}
     if((millis() - startingTime) >= timeOutDelay)
@@ -648,14 +648,14 @@ uint8_t I2C::receiveByte(uint8_t ack)
   unsigned long startingTime = millis();
   if(ack)
   {
-    TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
+    TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWEA);
 
   }
   else
   {
-    TWCR = (1<<TWINT) | (1<<TWEN);
+    TWCR = (1 << TWINT) | (1 << TWEN);
   }
-  while (!(TWCR & (1<<TWINT)))
+  while (!(TWCR & (1 << TWINT)))
   {
     if(!timeOutDelay){continue;}
     if((millis() - startingTime) >= timeOutDelay)
@@ -704,8 +704,8 @@ uint8_t I2C::receiveByte(uint8_t ack, uint8_t *target)
 uint8_t I2C::stop()
 {
   unsigned long startingTime = millis();
-  TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
-  while ((TWCR & (1<<TWSTO)))
+  TWCR = (1 << TWINT)|(1 << TWEN)| (1 << TWSTO);
+  while ((TWCR & (1 << TWSTO)))
   {
     if(!timeOutDelay){continue;}
     if((millis() - startingTime) >= timeOutDelay)

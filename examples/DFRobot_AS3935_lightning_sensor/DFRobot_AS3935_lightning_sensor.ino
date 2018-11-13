@@ -1,5 +1,5 @@
 /*!
-   file DFRobot_AS3935_lightning_I2c.ino
+   file DFRobot_AS3935_lightning_sensor.ino
 
    SEN0290 Lightning Sensor
    This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
@@ -12,14 +12,14 @@
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V0.2
-   date  2018-10-08
+   version  V0.3
+   date  2018-11-13
 */
 
 #include "Lib_I2C.h"
 #include "DFRobot_AS3935_I2C.h"
 
-volatile int8_t AS3935_ISR_Trig = 0;
+volatile int8_t AS3935IsrTrig = 0;
 
 #define IRQ_PIN              2
 
@@ -41,7 +41,7 @@ volatile int8_t AS3935_ISR_Trig = 0;
 
 void AS3935_ISR();
 
-DF_AS3935_I2C  lightning0((uint8_t)IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
+DFRobot_AS3935_I2C  lightning0((uint8_t)IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
 
 void setup()
 {
@@ -56,9 +56,9 @@ void setup()
   delay(2);
 
   // Set registers to default
-  lightning0.AS3935_DefInit();
+  lightning0.AS3935DefInit();
   // Configure sensor
-  lightning0.AS3935_ManualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
+  lightning0.AS3935ManualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
   // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
 
 //  Connect the IRQ and GND pin to the oscilloscope.
@@ -66,7 +66,7 @@ void setup()
 //  This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
 //  Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz ± 3.5%
 //  lightning0.AS3935_SetLCO_FDIV(0);
-//  lightning0.AS3935_SetIRQ_Output_Source(3);
+//  lightning0.AS3935SetIRQOutputSource(3);
 
   attachInterrupt(0, AS3935_ISR, RISING);
 
@@ -75,34 +75,34 @@ void setup()
 void loop()
 {
   // It does nothing until an interrupt is detected on the IRQ pin.
-  while (AS3935_ISR_Trig == 0) {}
+  while (AS3935IsrTrig == 0) {}
   delay(5);
 
   // Reset interrupt flag
-  AS3935_ISR_Trig = 0;
+  AS3935IsrTrig = 0;
 
   // Get interrupt source
-  uint8_t int_src = lightning0.AS3935_GetInterruptSrc();
-  if (int_src == 1)
+  uint8_t intSrc = lightning0.AS3935GetInterruptSrc();
+  if (intSrc == 1)
   {
     // Get rid of non-distance data
-    uint8_t lightning_dist_km = lightning0.AS3935_GetLightningDistKm();
+    uint8_t lightningDistKm = lightning0.AS3935GetLightningDistKm();
     Serial.println("Lightning occurs!");
     Serial.print("Distance: ");
-    Serial.print(lightning_dist_km);
+    Serial.print(lightningDistKm);
     Serial.println(" km");
 
     // Get lightning energy intensity
-    uint32_t lightning_energy_val = lightning0.AS3935_GetStrikeEnergyRaw();
+    uint32_t lightningEnergyVal = lightning0.AS3935GetStrikeEnergyRaw();
     Serial.print("Intensity: ");
-    Serial.print(lightning_energy_val);
+    Serial.print(lightningEnergyVal);
     Serial.println("");
   }
-  else if (int_src == 2)
+  else if (intSrc == 2)
   {
     Serial.println("Disturber discovered!");
   }
-  else if (int_src == 3)
+  else if (intSrc == 3)
   {
     Serial.println("Noise level too high!");
   }
@@ -112,6 +112,6 @@ void loop()
 //IRQ handler for AS3935 interrupts
 void AS3935_ISR()
 {
-  AS3935_ISR_Trig = 1;
+  AS3935IsrTrig = 1;
 }
 
