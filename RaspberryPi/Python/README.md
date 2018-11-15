@@ -83,6 +83,68 @@ def setLcoFdiv(self,fdiv);
  */
 def setIrqOutputSource(self, irqSelect);
 
+/*
+ * @brief Set to the outdoor model
+ */
+def setOutdoors(self);
+
+/*
+ * @brief Set to the indoor model
+ */
+def setIndoors(self);
+
+/*
+ * @brief Disturber detection enabled
+ */
+def disturberEn(self);
+
+/*
+ * @brief Disturber detection disenabled
+ */
+def disturberDis(self);
+
+/*
+ * @brief Set the noise level
+ *
+ * @param 0~7,More than 7 will use the default value:2
+ */
+def setNoiseFloorLv1(self, nfSel);
+
+/*
+ * @brief Get the noise level
+ *
+ * @return 0~7
+ */
+def getNoiseFloorLv1(self);
+
+/*
+ * @brief Set an anti-interference rating
+ *
+ * @param 0~7,More than 7 will use the default value:1
+ */
+def setWatchdogThreshold(self, wdth);
+
+/*
+ * @brief read WDTH
+ *
+ * @return 0~7
+ */
+def getWatchdogThreshold(self);
+
+/*
+ * @brief Modify SREJ (spike rejection)
+ *
+ * @param 0~7,More than 7 will use the default value:2
+ */
+def setSpikeRejection(self, srej);
+
+/*
+ * @brief read SREJ (spike rejection)
+ *
+ * @return 0~7
+ */
+def getSpikeRejection(self);
+
 ```
 ## Credits
 

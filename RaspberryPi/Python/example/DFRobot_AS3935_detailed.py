@@ -1,4 +1,4 @@
-# file DFRobot_AS3935_lightning_sensor.py
+# file DFRobot_AS3935_detailed.py
 #
 # SEN0290 Lightning Sensor
 # This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
@@ -15,6 +15,8 @@
 # version  V0.1
 # date  2018-11-13
 
+import sys
+sys.path.append('../')
 import time
 from DFRobot_AS3935_Lib import DFRobot_AS3935
 import RPi.GPIO as GPIO
@@ -46,6 +48,14 @@ sensor.reset()
 #Configure sensor
 sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
 
+#set indoors or outdoors models
+sensor.setIndoors()
+#sensor.setOutdoors()
+
+#disturber detection
+sensor.disturberEn()
+#sensor.disturberDis()
+
 # Connect the IRQ and GND pin to the oscilloscope.
 # uncomment the following sentences to fine tune the antenna for better performance.
 # This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
@@ -53,6 +63,18 @@ sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
 #
 # sensor.setLcoFdiv(0)
 # sensor.setIrqOutputSource(3)
+
+#Set the noise level,use a default value greater than 7
+sensor.setNoiseFloorLv1(2)
+#noiseLv = sensor.getNoiseFloorLv1()
+
+#used to modify WDTH,alues should only be between 0x00 and 0x0F (0 and 7)
+sensor.setWatchdogThreshold(0)
+#wtdgThreshold = sensor.getWatchdogThreshold()
+
+#used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)
+sensor.setSpikeRejection(2)
+#spikeRejection = sensor.getSpikeRejection()
 
 def callback_handle(channel):
     global sensor
