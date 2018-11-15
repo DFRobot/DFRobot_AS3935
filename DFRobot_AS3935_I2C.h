@@ -22,8 +22,6 @@ class DFRobot_AS3935_I2C
     void manualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
     /*! reset registers to default */
     void defInit(void);
-    void powerUp(void);
-    void powerDown(void);
     void disturberEn(void);
     void disturberDis(void);
     void setIRQOutputSource(uint8_t irqSelect);
@@ -52,7 +50,9 @@ class DFRobot_AS3935_I2C
     uint8_t irq, devAdd;
     uint8_t singRegRead(uint8_t regAdd);
     void singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData);
-    void AS3935Reset(void);
+    void reset(void);
+    void powerUp(void);
+    void powerDown(void);
     void calRCO(void);
 };
 

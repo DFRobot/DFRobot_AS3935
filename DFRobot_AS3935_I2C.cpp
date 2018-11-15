@@ -46,18 +46,18 @@ void DFRobot_AS3935_I2C::singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t 
 
     // finally, write the data to the register
     I2c.write(devAdd, regAdd, newRegData);
-    Serial.print("wrt: ");
-    Serial.print(newRegData,HEX);
-    Serial.print(" Act: ");
-    Serial.println(singRegRead(regAdd),HEX);
+    //Serial.print("wrt: ");
+    //Serial.print(newRegData,HEX);
+    //Serial.print(" Act: ");
+    //Serial.println(singRegRead(regAdd),HEX);
 }
 
 void DFRobot_AS3935_I2C::defInit()
 {
-    AS3935Reset();            // reset registers to default
+    reset();            // reset registers to default
 }
 
-void DFRobot_AS3935_I2C::AS3935Reset()
+void DFRobot_AS3935_I2C::reset()
 {
     // run PRESET_DEFAULT Direct Command to set all registers in default state
     I2c.write(devAdd, (uint8_t)0x3C, (uint8_t)0x96);
@@ -109,7 +109,7 @@ void DFRobot_AS3935_I2C::setIRQOutputSource(uint8_t irqSelect)
     // only one should be set at once, I think
     // 0 = NONE, 1 = TRCO, 2 = SRCO, 3 = LCO
     
-if(1 == irqSelect)
+    if(1 == irqSelect)
     {
         singRegWrite(0x08, 0xE0, 0x20);            // set only TRCO bit
     }
@@ -240,7 +240,7 @@ void DFRobot_AS3935_I2C::setNoiseFloorLvl(uint8_t nfSel)
 {
     // NF settings addres 0x01, bits 6:4
     // default setting of 010 at startup (datasheet, table 9)
-    if(7 >= nfSel)                                // nf_sel within expected range
+    if(7 >= nfSel)                                // nfSel within expected range
     {
         singRegWrite(0x01, 0x70, ((nfSel & 0x07) << 4));
     }

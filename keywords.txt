@@ -27,8 +27,6 @@ receive	KEYWORD2
 setI2CAddress	KEYWORD2
 manualCal	KEYWORD2
 defInit	KEYWORD2
-powerUp	KEYWORD2
-powerDown	KEYWORD2
 disturberEn	KEYWORD2
 disturberDis	KEYWORD2
 setIRQOutputSource	KEYWORD2

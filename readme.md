@@ -134,6 +134,48 @@ void setLcoFdiv(uint8_t fdiv);
  */
 void setIRQOutputSource(uint8_t irqSelect);
 
+/*
+ * @brief Set the noise level
+ *
+ * @param 0~7,More than 7 will use the default value:2
+ */
+void setNoiseFloorLvl(uint8_t nfSel);
+
+/*
+ * @brief Get the noise level
+ *
+ * @return 0~7
+ */
+uint8_t getNoiseFloorLvl(void);
+
+/*
+ * @brief Set an anti-interference rating
+ *
+ * @param 0~7,More than 7 will use the default value:1
+ */
+void setWatchdogThreshold(uint8_t wdth);
+
+/*
+ * @brief read WDTH
+ *
+ * @return 0~7
+ */
+uint8_t getWatchdogThreshold(void);
+
+/*
+ * @brief Modify SREJ (spike rejection)
+ *
+ * @param 0~7,More than 7 will use the default value:2
+ */
+void setSpikeRejection(uint8_t srej);
+
+/*
+ * @brief read SREJ (spike rejection)
+ *
+ * @return 0~7
+ */
+uint8_t getSpikeRejection(void);
+
 ```
 
 
