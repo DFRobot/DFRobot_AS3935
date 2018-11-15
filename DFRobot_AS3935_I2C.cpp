@@ -10,7 +10,7 @@ DFRobot_AS3935_I2C::DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx)
 
 }
 
-void DFRobot_AS3935_I2C::AS3935SetI2CAddress(uint8_t devAddx)
+void DFRobot_AS3935_I2C::setI2CAddress(uint8_t devAddx)
 {
 	if (devAddx == AS3935_ADD1)
 	{
@@ -52,7 +52,7 @@ void DFRobot_AS3935_I2C::singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t 
 	Serial.println(singRegRead(regAdd),HEX);
 }
 
-void DFRobot_AS3935_I2C::AS3935DefInit()
+void DFRobot_AS3935_I2C::defInit()
 {
 	AS3935Reset();			// reset registers to default
 }
@@ -71,7 +71,7 @@ void DFRobot_AS3935_I2C::calRCO()
 	delay(2);					// wait 2ms to complete
 }
 
-void DFRobot_AS3935_I2C::AS3935PowerUp(void)
+void DFRobot_AS3935_I2C::powerUp(void)
 {
 	// power-up sequence based on datasheet, pg 23/27
 	// register 0x00, PWD bit: 0 (clears PWD)
@@ -82,27 +82,27 @@ void DFRobot_AS3935_I2C::AS3935PowerUp(void)
 	singRegWrite(0x08, 0x20, 0x00);	// set DISP_SRCO to 0
 }
 
-void DFRobot_AS3935_I2C::AS3935PowerDown(void)
+void DFRobot_AS3935_I2C::powerDown(void)
 {
 	// register 0x00, PWD bit: 0 (sets PWD)
 	singRegWrite(0x00, 0x01, 0x01);
 	Serial.println("AS3935 powered down");
 }
 
-void DFRobot_AS3935_I2C::AS3935DisturberEn(void)
+void DFRobot_AS3935_I2C::disturberEn(void)
 {
 	// register 0x03, PWD bit: 5 (sets MASK_DIST)
 	singRegWrite(0x03, 0x20, 0x00);
 	Serial.println("disturber detection enabled");
 }
 
-void DFRobot_AS3935_I2C::AS3935DisturberDis(void)
+void DFRobot_AS3935_I2C::disturberDis(void)
 {
 	// register 0x03, PWD bit: 5 (sets MASK_DIST)
 	singRegWrite(0x03, 0x20, 0x20);
 }
 
-void DFRobot_AS3935_I2C::AS3935SetIRQOutputSource(uint8_t irqSelect)
+void DFRobot_AS3935_I2C::setIRQOutputSource(uint8_t irqSelect)
 {
 	// set interrupt source - what to display on IRQ pin
 	// reg 0x08, bits 5 (TRCO), 6 (SRCO), 7 (LCO)
@@ -128,7 +128,7 @@ void DFRobot_AS3935_I2C::AS3935SetIRQOutputSource(uint8_t irqSelect)
 	
 }
 
-void DFRobot_AS3935_I2C::AS3935SetTuningCaps(uint8_t capVal)
+void DFRobot_AS3935_I2C::setTuningCaps(uint8_t capVal)
 {
 	// Assume only numbers divisible by 8 (because that's all the chip supports)
 	if(120 < capVal)	// cap_value out of range, assume highest capacitance
@@ -143,7 +143,7 @@ void DFRobot_AS3935_I2C::AS3935SetTuningCaps(uint8_t capVal)
 	Serial.println((singRegRead(0x08) & 0x0F));
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935GetInterruptSrc(void)
+uint8_t DFRobot_AS3935_I2C::getInterruptSrc(void)
 {
 	// definition of interrupt data on table 18 of datasheet
 	// for this function:
@@ -166,13 +166,13 @@ uint8_t DFRobot_AS3935_I2C::AS3935GetInterruptSrc(void)
 	
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935GetLightningDistKm(void)
+uint8_t DFRobot_AS3935_I2C::getLightningDistKm(void)
 {
 	uint8_t strikeDist = (singRegRead(0x07) & 0x3F);	// read register, get rid of non-distance data
 	return strikeDist;
 }
 
-uint32_t DFRobot_AS3935_I2C::AS3935GetStrikeEnergyRaw(void)
+uint32_t DFRobot_AS3935_I2C::getStrikeEnergyRaw(void)
 {
 	uint32_t nrgyRaw = ((singRegRead(0x06) & 0x1F) << 8);	// MMSB, shift 8  bits left, make room for MSB
 	nrgyRaw |= singRegRead(0x05);							// read MSB
@@ -182,7 +182,7 @@ uint32_t DFRobot_AS3935_I2C::AS3935GetStrikeEnergyRaw(void)
 	return nrgyRaw/16777;
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935SetMinStrikes(uint8_t minStrk)
+uint8_t DFRobot_AS3935_I2C::setMinStrikes(uint8_t minStrk)
 {
 	// This function sets min strikes to the closest available number, rounding to the floor, 
 	// where necessary, then returns the physical value that was set. Options are 1, 5, 9 or 16 strikes.
@@ -209,7 +209,7 @@ uint8_t DFRobot_AS3935_I2C::AS3935SetMinStrikes(uint8_t minStrk)
 	}
 }
 
-void DFRobot_AS3935_I2C::AS3935SetIndoors(void)
+void DFRobot_AS3935_I2C::setIndoors(void)
 {
 	// AFE settings addres 0x00, bits 5:1 (10010, based on datasheet, pg 19, table 15)
 	// this is the default setting at power-up (AS3935 datasheet, table 9)
@@ -217,14 +217,14 @@ void DFRobot_AS3935_I2C::AS3935SetIndoors(void)
 	Serial.println("set up for indoor operation");
 }
 
-void DFRobot_AS3935_I2C::AS3935SetOutdoors(void)
+void DFRobot_AS3935_I2C::setOutdoors(void)
 {
 	// AFE settings addres 0x00, bits 5:1 (01110, based on datasheet, pg 19, table 15)
 	singRegWrite(0x00, 0x3E, 0x1C);
 	Serial.println("set up for outdoor operation");
 }
 
-void DFRobot_AS3935_I2C::AS3935ClearStatistics(void)
+void DFRobot_AS3935_I2C::clearStatistics(void)
 {
 	// clear is accomplished by toggling CL_STAT bit 'high-low-high' (then set low to move on)
 	singRegWrite(0x02, 0x40, 0x40);			// high
@@ -232,7 +232,7 @@ void DFRobot_AS3935_I2C::AS3935ClearStatistics(void)
 	singRegWrite(0x02, 0x40, 0x40);			// high
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935GetNoiseFloorLvl(void)
+uint8_t DFRobot_AS3935_I2C::getNoiseFloorLvl(void)
 {
 	// NF settings addres 0x01, bits 6:4
 	// default setting of 010 at startup (datasheet, table 9)
@@ -240,7 +240,7 @@ uint8_t DFRobot_AS3935_I2C::AS3935GetNoiseFloorLvl(void)
 	return ((regRaw & 0x70) >> 4);				// should return value from 0-7, see table 16 for info
 }
 
-void DFRobot_AS3935_I2C::AS3935SetNoiseFloorLvl(uint8_t nfSel)
+void DFRobot_AS3935_I2C::setNoiseFloorLvl(uint8_t nfSel)
 {
 	// NF settings addres 0x01, bits 6:4
 	// default setting of 010 at startup (datasheet, table 9)
@@ -254,7 +254,7 @@ void DFRobot_AS3935_I2C::AS3935SetNoiseFloorLvl(uint8_t nfSel)
 	}
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935GetWatchdogThreshold(void)
+uint8_t DFRobot_AS3935_I2C::getWatchdogThreshold(void)
 {
 	// This function is used to read WDTH. It is used to increase robustness to disturbers,
 	// though will make detection less efficient (see page 19, Fig 20 of datasheet)
@@ -265,7 +265,7 @@ uint8_t DFRobot_AS3935_I2C::AS3935GetWatchdogThreshold(void)
 	return (regRaw & 0x0F);
 }
 
-void DFRobot_AS3935_I2C::AS3935SetWatchdogThreshold(uint8_t wdth)
+void DFRobot_AS3935_I2C::setWatchdogThreshold(uint8_t wdth)
 {
 	// This function is used to modify WDTH. It is used to increase robustness to disturbers,
 	// though will make detection less efficient (see page 19, Fig 20 of datasheet)
@@ -275,7 +275,7 @@ void DFRobot_AS3935_I2C::AS3935SetWatchdogThreshold(uint8_t wdth)
 	singRegWrite(0x01, 0x0F, (wdth & 0x0F));
 }
 
-uint8_t DFRobot_AS3935_I2C::AS3935GetSpikeRejection(void)
+uint8_t DFRobot_AS3935_I2C::getSpikeRejection(void)
 {
 	// This function is used to read SREJ (spike rejection). Similar to the Watchdog threshold,
 	// it is used to make the system more robust to disturbers, though will make general detection
@@ -287,7 +287,7 @@ uint8_t DFRobot_AS3935_I2C::AS3935GetSpikeRejection(void)
 	return (regRaw & 0x0F);
 }
 
-void DFRobot_AS3935_I2C::AS3935SetSpikeRejection(uint8_t srej)
+void DFRobot_AS3935_I2C::setSpikeRejection(uint8_t srej)
 {
 	// This function is used to modify SREJ (spike rejection). Similar to the Watchdog threshold,
 	// it is used to make the system more robust to disturbers, though will make general detection
@@ -298,7 +298,7 @@ void DFRobot_AS3935_I2C::AS3935SetSpikeRejection(uint8_t srej)
 	singRegWrite(0x02, 0x0F, (srej & 0x0F));
 }
 
-void DFRobot_AS3935_I2C::AS3935SetLcoFdiv(uint8_t fdiv)
+void DFRobot_AS3935_I2C::setLcoFdiv(uint8_t fdiv)
 {
 	// This function sets LCO_FDIV register. This is useful in the tuning of the antenna
 	// LCO_FDIV register: add 0x03, bits 7:6
@@ -308,7 +308,7 @@ void DFRobot_AS3935_I2C::AS3935SetLcoFdiv(uint8_t fdiv)
 	singRegWrite(0x03, 0xC0, ((fdiv & 0x03) << 6));
 }
 
-void DFRobot_AS3935_I2C::AS3935PrintAllRegs(void)
+void DFRobot_AS3935_I2C::printAllRegs(void)
 {
 	Serial.print("Reg 0x00: ");
 	Serial.println(singRegRead(0x00));
@@ -328,40 +328,40 @@ void DFRobot_AS3935_I2C::AS3935PrintAllRegs(void)
 	Serial.println(singRegRead(0x07));
 	Serial.print("Reg 0x08: ");
 	Serial.println(singRegRead(0x08));
-	uint32_t nrgyVal = AS3935GetStrikeEnergyRaw();
+	uint32_t nrgyVal = getStrikeEnergyRaw();
 	Serial.println(nrgyVal);
 }
 
-void DFRobot_AS3935_I2C::AS3935ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber)
+void DFRobot_AS3935_I2C::manualCal(uint8_t capacitance, uint8_t location, uint8_t disturber)
 {
 	// start by powering up
-	AS3935PowerUp();
+	powerUp();
 	
 	// indoors/outdoors next...
 	if(1 == location)							// set outdoors if 1
 	{
-		AS3935SetOutdoors();
+		setOutdoors();
 	}
 	else										// set indoors if anything but 1
 	{
-		AS3935SetIndoors();
+		setIndoors();
 	}
 	
 	// disturber cal
 	if(0 == disturber)							// disabled if 0
 	{				
-		AS3935DisturberDis();
+		disturberDis();
 	}
 	else										// enabled if anything but 0
 	{
-		AS3935DisturberEn();
+		disturberEn();
 	}
 	
-	AS3935SetIRQOutputSource(0);
+	setIRQOutputSource(0);
 	
 	delay(500);
 	// capacitance first... directly write value here
-	AS3935SetTuningCaps(capacitance);
+	setTuningCaps(capacitance);
 	
 	Serial.println("AS3935 manual cal complete");
 }

@@ -12,8 +12,8 @@
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V0.3
-   date  2018-11-13
+   version  V0.4
+   date  2018-11-15
 */
 
 #include "Lib_I2C.h"
@@ -56,17 +56,17 @@ void setup()
   delay(2);
 
   // Set registers to default
-  lightning0.AS3935DefInit();
+  lightning0.defInit();
   // Configure sensor
-  lightning0.AS3935ManualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
+  lightning0.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
   // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
 
 //  Connect the IRQ and GND pin to the oscilloscope.
 //  uncomment the following sentences to fine tune the antenna for better performance.
 //  This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
 //  Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz ± 3.5%
-//  lightning0.AS3935_SetLCO_FDIV(0);
-//  lightning0.AS3935SetIRQOutputSource(3);
+//  lightning0.setLcoFdiv(0);
+//  lightning0.setIRQOutputSource(3);
 
   attachInterrupt(0, AS3935_ISR, RISING);
 
@@ -82,18 +82,18 @@ void loop()
   AS3935IsrTrig = 0;
 
   // Get interrupt source
-  uint8_t intSrc = lightning0.AS3935GetInterruptSrc();
+  uint8_t intSrc = lightning0.getInterruptSrc();
   if (intSrc == 1)
   {
     // Get rid of non-distance data
-    uint8_t lightningDistKm = lightning0.AS3935GetLightningDistKm();
+    uint8_t lightningDistKm = lightning0.getLightningDistKm();
     Serial.println("Lightning occurs!");
     Serial.print("Distance: ");
     Serial.print(lightningDistKm);
     Serial.println(" km");
 
     // Get lightning energy intensity
-    uint32_t lightningEnergyVal = lightning0.AS3935GetStrikeEnergyRaw();
+    uint32_t lightningEnergyVal = lightning0.getStrikeEnergyRaw();
     Serial.print("Intensity: ");
     Serial.print(lightningEnergyVal);
     Serial.println("");

@@ -53,14 +53,14 @@ DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
 /*
  * @brief reset registers to default
  */
-void AS3935DefInit(void);
+void defInit(void);
 
 /*
  * @brief set i2c address
  *
  * @param devAddx     i2c address  
  */
-void AS3935SetI2CAddress(uint8_t devAddx);
+void setI2CAddress(uint8_t devAddx);
 
 /*
  * @brief manual calibration
@@ -69,12 +69,12 @@ void AS3935SetI2CAddress(uint8_t devAddx);
  *        location       location
  *        disturber      disturber
  */
-void AS3935ManualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
+void manualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
 
 /*
  * @brief view register data
  */
-void AS3935PrintAllRegs(void);
+void printAllRegs(void);
 
 /*
  * @brief get interrupt source
@@ -84,46 +84,55 @@ void AS3935PrintAllRegs(void);
  *         2    disturber detected
  *         3    Noise level too high
  */
-uint8_t AS3935GetInterruptSrc(void);
+uint8_t getInterruptSrc(void);
 
 /*
  * @brief get lightning distance
  * 
  * @return unit kilometer
  */
-uint8_t AS3935GetLightningDistKm(void);
+uint8_t getLightningDistKm(void);
 
 /*
  * @brief get lightning energy intensity
  * 
  * @return lightning energy intensity(0-1000)
  */
-uint32_t AS3935GetStrikeEnergyRaw(void);
+uint32_t getStrikeEnergyRaw(void);
 
 /*
  * @brief Set to the outdoor model
  */
-void AS3935SetOutdoors(void);
+void setOutdoors(void);
 
 /*
  * @brief Set to the indoor model
  */
-void AS3935SetIndoors(void);
-
-/*
- * @brief Print all register values
- */
-void AS3935PrintAllRegs(void);
+void setIndoors(void);
 
 /*
  * @brief Disturber detection enabled
  */
-void DFRobot_AS3935_I2C::AS3935DisturberEn(void);
+void disturberEn(void);
 
 /*
  * @brief Disturber detection disenabled
  */
-void DFRobot_AS3935_I2C::AS3935DisturberDis(void);
+void disturberDis(void);
+
+/*
+ * @brief Sets LCO_FDIV register
+ *
+ * @param fdiv Set 0, 1, 2 or 3 for ratios of 16, 32, 64 and 128, respectively
+ */
+void setLcoFdiv(uint8_t fdiv);
+
+/*
+ * @brief Set interrupt source
+ *
+ * @param irqSelect 0 = NONE, 1 = TRCO, 2 = SRCO, 3 = LCO
+ */
+void setIRQOutputSource(uint8_t irqSelect);
 
 ```
 
