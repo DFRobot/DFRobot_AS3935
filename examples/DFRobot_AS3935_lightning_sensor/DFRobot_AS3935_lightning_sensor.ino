@@ -65,7 +65,7 @@ void setup()
 //  uncomment the following sentences to fine tune the antenna for better performance.
 //  This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
 //  Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz ± 3.5%
-//  lightning0.AS3935_SetLCO_FDIV(0);
+//  lightning0.AS3935SetLcoFdiv(0);
 //  lightning0.AS3935SetIRQOutputSource(3);
 
   attachInterrupt(0, AS3935_ISR, RISING);
