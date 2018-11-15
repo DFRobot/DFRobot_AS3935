@@ -69,6 +69,20 @@ def getLightningDistKm(self);
  */
 def getStrikeEnergyRaw(self);
 
+/*
+ * @brief Sets LCO_FDIV register
+ *
+ * @param fdiv Set 0, 1, 2 or 3 for ratios of 16, 32, 64 and 128, respectively
+ */
+def setLcoFdiv(self,fdiv);
+
+/*
+ * @brief Set interrupt source
+ *
+ * @param irqSelect 0 = NONE, 1 = TRCO, 2 = SRCO, 3 = LCO
+ */
+def setIrqOutputSource(self, irqSelect);
+
 ```
 ## Credits
 
