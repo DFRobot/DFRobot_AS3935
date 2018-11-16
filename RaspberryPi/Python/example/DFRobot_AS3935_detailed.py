@@ -97,6 +97,7 @@ def callback_handle(channel):
 GPIO.setup(IRQ_PIN, GPIO.IN)
 #Set the interrupt pin, the interrupt function, rising along the trigger
 GPIO.add_event_detect(IRQ_PIN, GPIO.RISING, callback = callback_handle)
+print("start lightning detect.")
 
 while True:
     time.sleep(1.0)

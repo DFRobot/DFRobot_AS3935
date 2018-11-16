@@ -77,9 +77,9 @@ class DFRobot_AS3935:
         newRegData = (self.register[0] & ~dataMask)|(regData & dataMask)
         #finally, write the data to the register
         self.writeByte(regAdd, newRegData)
-        print('wrt: %02x'%newRegData)
+        #print('wrt: %02x'%newRegData)
         self.singRegRead(regAdd)
-        print('Act: %02x'%self.register[0])
+        #print('Act: %02x'%self.register[0])
 
     def singRegRead(self,regAdd):
         self.readData(regAdd)
