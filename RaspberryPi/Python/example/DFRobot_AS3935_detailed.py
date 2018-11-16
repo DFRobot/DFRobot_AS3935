@@ -59,7 +59,7 @@ sensor.disturberEn()
 # Connect the IRQ and GND pin to the oscilloscope.
 # uncomment the following sentences to fine tune the antenna for better performance.
 # This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
-# Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz ± 3.5%
+# Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz plus 3.5% to 500/16 kHz minus 3.5%
 #
 # sensor.setLcoFdiv(0)
 # sensor.setIrqOutputSource(3)
