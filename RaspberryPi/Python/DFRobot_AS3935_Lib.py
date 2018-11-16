@@ -7,7 +7,11 @@ class DFRobot_AS3935:
         self.i2cbus = smbus.SMBus(bus)
 
     def writeByte(self, register, value):
-        self.i2cbus.write_byte_data(self.address, register, value)
+        try:
+            self.i2cbus.write_byte_data(self.address, register, value)
+            return 1
+        except:
+            return 0
 
     def readData(self, register):
         self.register = self.i2cbus.read_i2c_block_data(self.address, register)
@@ -36,7 +40,7 @@ class DFRobot_AS3935:
             self.singRegWrite(0x08, 0x0F, capVal >> 3) #set capacitance bits
 
         self.singRegRead(0x08)
-        print('capacitance set to 8x%d'%(self.register[0] & 0x0F))
+        #print('capacitance set to 8x%d'%(self.register[0] & 0x0F))
 
     def powerUp(self):
         #register 0x00, PWD bit: 0 (clears PWD)
@@ -56,17 +60,21 @@ class DFRobot_AS3935:
 
     def setIndoors(self):
         self.singRegWrite(0x00, 0x3E, 0x24)
+        print("set to indoors model")
 
     def setOutdoors(self):
         self.singRegWrite(0x00, 0x3E, 0x1C)
+        print("set to outdoors model")
 
     def disturberDis(self):
         #register 0x03, PWD bit: 5 (sets MASK_DIST)
         self.singRegWrite(0x03, 0x20, 0x20)
+        print("disenable disturber detection")
 
     def disturberEn(self):
         #register 0x03, PWD bit: 5 (sets MASK_DIST)
         self.singRegWrite(0x03, 0x20, 0x00)
+        print("enable disturber detection")
 
     def singRegWrite(self, regAdd, dataMask, regData):
         #start by reading original register data (only modifying what we need to)
@@ -101,8 +109,9 @@ class DFRobot_AS3935:
             return 0 #interrupt result not expected
 
     def reset(self):
-        self.writeByte(0x3C, 0x96)
+        err = self.writeByte(0x3C, 0x96)
         time.sleep(0.002) #wait 2ms to complete
+        return err
 
     def setLcoFdiv(self,fdiv):
         self.singRegWrite(0x03, 0xC0, (fdiv & 0x03) << 6)
@@ -207,5 +216,26 @@ class DFRobot_AS3935:
         #default value of 0010
         #values should only be between 0x00 and 0x0F (0 and 7)
         self.singRegWrite(0x02, 0x0F, srej & 0x0F)
+        
+    def printAllRegs(self):
+        self.singRegRead(0x00)
+        print("Reg 0x00: %02x"%self.register[0])
+        self.singRegRead(0x01)
+        print("Reg 0x01: %02x"%self.register[0])
+        self.singRegRead(0x02)
+        print("Reg 0x02: %02x"%self.register[0])
+        self.singRegRead(0x03)
+        print("Reg 0x03: %02x"%self.register[0])
+        self.singRegRead(0x04)
+        print("Reg 0x04: %02x"%self.register[0])
+        self.singRegRead(0x05)
+        print("Reg 0x05: %02x"%self.register[0])
+        self.singRegRead(0x06)
+        print("Reg 0x06: %02x"%self.register[0])
+        self.singRegRead(0x07)
+        print("Reg 0x07: %02x"%self.register[0])
+        self.singRegRead(0x08)
+        print("Reg 0x08: %02x"%self.register[0])
+
 
 

@@ -44,7 +44,12 @@ AS3935_DIST = AS3935_DIST_EN
 GPIO.setmode(GPIO.BOARD)
 
 sensor = DFRobot_AS3935(AS3935_I2C_ADDR3, bus = 1)
-sensor.reset()
+if (sensor.reset()):
+    print("init sensor sucess.")
+else:
+    print("init sensor fail")
+    while True:
+        pass
 #Configure sensor
 sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
 
@@ -75,6 +80,9 @@ sensor.setWatchdogThreshold(0)
 #used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)
 sensor.setSpikeRejection(2)
 #spikeRejection = sensor.getSpikeRejection()
+
+#view all register data
+#sensor.printAllRegs()
 
 def callback_handle(channel):
     global sensor

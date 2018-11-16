@@ -44,7 +44,13 @@ AS3935_DIST = AS3935_DIST_EN
 GPIO.setmode(GPIO.BOARD)
 
 sensor = DFRobot_AS3935(AS3935_I2C_ADDR3, bus = 1)
-sensor.reset()
+if (sensor.reset()):
+    print("init sensor sucess.")
+else:
+    print("init sensor fail")
+    while True:
+        pass
+
 #Configure sensor
 sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
 
@@ -55,6 +61,9 @@ sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
 #
 # sensor.setLcoFdiv(0)
 # sensor.setIrqOutputSource(3)
+
+#view all register data
+#sensor.printAllRegs()
 
 def callback_handle(channel):
     global sensor
