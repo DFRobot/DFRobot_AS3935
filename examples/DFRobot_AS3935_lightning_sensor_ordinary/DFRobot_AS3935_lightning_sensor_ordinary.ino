@@ -12,7 +12,7 @@
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V0.5
+   version  V1.0
    date  2018-11-28
 */
 
