@@ -4,16 +4,16 @@
 # This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
 # It can be set as indoor or outdoor mode.
 # The module has three I2C, these addresses are:
-# AS3935_ADD1  0x01   A0 = High  A1 = Low
-# AS3935_ADD3  0x03   A0 = High  A1 = High
-# AS3935_ADD2  0x02   A0 = Low   A1 = High
+# AS3935_ADD1  0x01   A0 = 1  A1 = 0
+# AS3935_ADD2  0x02   A0 = 0  A1 = 1
+# AS3935_ADD3  0x03   A0 = 1  A1 = 1
 #
 #
 # Copyright    [DFRobot](http://www.dfrobot.com), 2018
 # Copyright    GNU Lesser General Public License
 #
-# version  V0.1
-# date  2018-11-13
+# version  V0.2
+# date  2018-11-28
 
 import sys
 sys.path.append('../')
@@ -29,17 +29,7 @@ AS3935_I2C_ADDR3 = 0X03
 
 #Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 AS3935_CAPACITANCE = 96
-IRQ_PIN = 37
-
-#Indoor/outdoor mode selection
-AS3935_INDOORS = 0
-AS3935_OUTDOORS = 1
-AS3935_MODE = AS3935_INDOORS
-
-#Enable/disable disturber detection
-AS3935_DIST_DIS = 0
-AS3935_DIST_EN = 1
-AS3935_DIST = AS3935_DIST_EN
+IRQ_PIN = 7
 
 GPIO.setmode(GPIO.BOARD)
 
@@ -51,7 +41,7 @@ else:
     while True:
         pass
 #Configure sensor
-sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST)
+sensor.powerUp()
 
 #set indoors or outdoors models
 sensor.setIndoors()
@@ -60,6 +50,11 @@ sensor.setIndoors()
 #disturber detection
 sensor.disturberEn()
 #sensor.disturberDis()
+
+sensor.setIrqOutputSource(0)
+time.sleep(0.5)
+#set capacitance
+sensor.setTuningCaps(AS3935_CAPACITANCE)
 
 # Connect the IRQ and GND pin to the oscilloscope.
 # uncomment the following sentences to fine tune the antenna for better performance.
@@ -74,7 +69,7 @@ sensor.setNoiseFloorLv1(2)
 #noiseLv = sensor.getNoiseFloorLv1()
 
 #used to modify WDTH,alues should only be between 0x00 and 0x0F (0 and 7)
-sensor.setWatchdogThreshold(0)
+sensor.setWatchdogThreshold(1)
 #wtdgThreshold = sensor.getWatchdogThreshold()
 
 #used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)

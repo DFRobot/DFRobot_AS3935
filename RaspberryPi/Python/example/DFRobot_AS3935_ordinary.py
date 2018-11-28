@@ -4,16 +4,16 @@
 # This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
 # It can be set as indoor or outdoor mode.
 # The module has three I2C, these addresses are:
-# AS3935_ADD1  0x01   A0 = High  A1 = Low
-# AS3935_ADD3  0x03   A0 = High  A1 = High
-# AS3935_ADD2  0x02   A0 = Low   A1 = High
+# AS3935_ADD1  0x01   A0 = 1  A1 = 0
+# AS3935_ADD2  0x02   A0 = 0  A1 = 1
+# AS3935_ADD3  0x03   A0 = 1  A1 = 1
 #
 #
 # Copyright    [DFRobot](http://www.dfrobot.com), 2018
 # Copyright    GNU Lesser General Public License
 #
-# version  V0.1
-# date  2018-11-13
+# version  V0.2
+# date  2018-11-28
 
 import sys
 sys.path.append('../')
@@ -29,7 +29,7 @@ AS3935_I2C_ADDR3 = 0X03
 
 #Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 AS3935_CAPACITANCE = 96
-IRQ_PIN = 37
+IRQ_PIN = 7
 
 #Indoor/outdoor mode selection
 AS3935_INDOORS = 0
