@@ -46,6 +46,7 @@ getSpikeRejection	KEYWORD2
 setSpikeRejection	KEYWORD2
 setLcoFdiv	KEYWORD2
 printAllRegs	KEYWORD2
+powerUp	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

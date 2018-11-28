@@ -5,15 +5,16 @@
    This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
    It can be set as indoor or outdoor mode.
    The module has three I2C, these addresses are:
-   AS3935_ADD1  0x01   A0 = High  A1 = Low
-   AS3935_ADD3  0x03   A0 = High  A1 = High
-   AS3935_ADD2  0x02   A0 = Low   A1 = High
+   AS3935_ADD1  0x01   A0 = 1  A1 = 0
+   AS3935_ADD2  0x02   A0 = 0  A1 = 1
+   AS3935_ADD3  0x03   A0 = 1  A1 = 1
+  
 
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V0.4
-   date  2018-11-15
+   version  V0.5
+   date  2018-11-28
 */
 
 #include "Lib_I2C.h"
@@ -26,22 +27,12 @@ volatile int8_t AS3935IsrTrig = 0;
 // Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 #define AS3935_CAPACITANCE   96
 
-// Indoor/outdoor mode selection
-#define AS3935_INDOORS       0
-#define AS3935_OUTDOORS      1
-#define AS3935_MODE          AS3935_INDOORS
-
-// Enable/disable disturber detection
-#define AS3935_DIST_DIS      0
-#define AS3935_DIST_EN       1
-#define AS3935_DIST          AS3935_DIST_EN
-
 // I2C address
-#define AS3935_I2C_ADDR       AS3935_ADD2
+#define AS3935_I2C_ADDR       AS3935_ADD3
 
 void AS3935_ISR();
 
-DFRobot_AS3935_I2C  lightning0((uint8_t)IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
+DFRobot_AS3935_I2C  lightning0((uint8_t)IRQ_PIN);
 
 void setup()
 {
@@ -57,9 +48,12 @@ void setup()
 
   lightning0.setI2CAddress(AS3935_ADD3);
   // Set registers to default
-  lightning0.defInit();
+  if(lightning0.defInit() != 0){
+    Serial.println("I2C init fail");
+    while(1){}  
+  }
   // Configure sensor
-  lightning0.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
+  lightning0.powerUp();
   
   //set indoors or outdoors models
   lightning0.setIndoors();
@@ -68,6 +62,12 @@ void setup()
   //disturber detection
   lightning0.disturberEn();
   //lightning0.disturberDis();
+
+  lightning0.setIRQOutputSource(0);
+  delay(500);
+  //set capacitance
+  lightning0.setTuningCaps(AS3935_CAPACITANCE);
+  Serial.println("AS3935 manual cal complete");
   
   // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
 //  Connect the IRQ and GND pin to the oscilloscope.
@@ -77,12 +77,12 @@ void setup()
 //  lightning0.setLcoFdiv(0);
 //  lightning0.setIRQOutputSource(3);
 
-// Set the noise level,use a default value greater than 7
+// Set the noise level,more than 7 will use the default value:2
   lightning0.setNoiseFloorLvl(2);
   //uint8_t noiseLv = lightning0.getNoiseFloorLvl();
 
 //used to modify WDTH,alues should only be between 0x00 and 0x0F (0 and 7)
-  lightning0.setWatchdogThreshold(0);
+  lightning0.setWatchdogThreshold(1);
   //uint8_t wtdgThreshold = lightning0.getWatchdogThreshold();
 
 //used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)

@@ -5,15 +5,15 @@
    This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
    It can be set as indoor or outdoor mode.
    The module has three I2C, these addresses are:
-   AS3935_ADD1  0x01   A0 = High  A1 = Low
-   AS3935_ADD3  0x03   A0 = High  A1 = High
-   AS3935_ADD2  0x02   A0 = Low   A1 = High
-
+   AS3935_ADD1  0x01   A0 = 1  A1 = 0
+   AS3935_ADD2  0x02   A0 = 0  A1 = 1
+   AS3935_ADD3  0x03   A0 = 1  A1 = 1
+  
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V0.4
-   date  2018-11-15
+   version  V0.5
+   date  2018-11-28
 */
 
 #include "Lib_I2C.h"
@@ -56,7 +56,10 @@ void setup()
   delay(2);
 
   // Set registers to default
-  lightning0.defInit();
+  if(lightning0.defInit() != 0){
+    Serial.println("I2C init fail");
+    while(1){}  
+  }
   // Configure sensor
   lightning0.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
   // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)

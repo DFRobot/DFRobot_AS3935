@@ -4,10 +4,15 @@ DFRobot_AS3935_I2C::DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx)
 {
     devAdd = devAddx;
     irq = irqx;
-    
     // initalize the IRQ pins
     pinMode(irq, INPUT);
+}
 
+DFRobot_AS3935_I2C::DFRobot_AS3935_I2C(uint8_t irqx)
+{
+    irq = irqx;
+    // initalize the IRQ pins
+    pinMode(irq, INPUT);
 }
 
 void DFRobot_AS3935_I2C::setI2CAddress(uint8_t devAddx)
@@ -52,16 +57,17 @@ void DFRobot_AS3935_I2C::singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t 
     //Serial.println(singRegRead(regAdd),HEX);
 }
 
-void DFRobot_AS3935_I2C::defInit()
+int DFRobot_AS3935_I2C::defInit()
 {
-    reset();            // reset registers to default
+    return reset();            // reset registers to default
 }
 
-void DFRobot_AS3935_I2C::reset()
+int DFRobot_AS3935_I2C::reset()
 {
     // run PRESET_DEFAULT Direct Command to set all registers in default state
-    I2c.write(devAdd, (uint8_t)0x3C, (uint8_t)0x96);
+    int error = I2c.write(devAdd, (uint8_t)0x3C, (uint8_t)0x96);
     delay(2);                    // wait 2ms to complete
+    return error;
 }
 
 void DFRobot_AS3935_I2C::calRCO()
@@ -139,8 +145,8 @@ void DFRobot_AS3935_I2C::setTuningCaps(uint8_t capVal)
     {
         singRegWrite(0x08, 0x0F, (capVal >> 3));    // set capacitance bits
     }
-    Serial.print("capacitance set to 8x");
-    Serial.println((singRegRead(0x08) & 0x0F));
+    //Serial.print("capacitance set to 8x");
+    //Serial.println((singRegRead(0x08) & 0x0F));
 }
 
 uint8_t DFRobot_AS3935_I2C::getInterruptSrc(void)

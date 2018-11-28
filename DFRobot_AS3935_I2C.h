@@ -16,12 +16,13 @@ class DFRobot_AS3935_I2C
 {
  public:
     DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
+    DFRobot_AS3935_I2C(uint8_t irqx);
     /*! Set i2c address */
     void setI2CAddress(uint8_t devAddx);
     /*! Manual calibration */
     void manualCal(uint8_t capacitance, uint8_t location, uint8_t disturber);
     /*! reset registers to default */
-    void defInit(void);
+    int defInit(void);
     void disturberEn(void);
     void disturberDis(void);
     void setIRQOutputSource(uint8_t irqSelect);
@@ -45,13 +46,13 @@ class DFRobot_AS3935_I2C
     void setLcoFdiv(uint8_t fdiv);
     /*! View register data */
     void printAllRegs(void);
+    void powerUp(void);
     
  private:
     uint8_t irq, devAdd;
     uint8_t singRegRead(uint8_t regAdd);
     void singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData);
-    void reset(void);
-    void powerUp(void);
+    int reset(void);
     void powerDown(void);
     void calRCO(void);
 };

@@ -51,9 +51,18 @@ Download the library ZIP file and unzip it to the Arduino folder of the library.
 DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
 
 /*
- * @brief reset registers to default
+ * @brief AS3935 object
+ *
+ * @param irqx        irq pin
  */
-void defInit(void);
+DFRobot_AS3935_I2C(uint8_t irqx);
+
+/*
+ * @brief reset registers to default
+ *
+ * @return 0 success
+ */
+int defInit(void);
 
 /*
  * @brief set i2c address
