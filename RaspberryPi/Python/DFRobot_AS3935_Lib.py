@@ -194,7 +194,7 @@ class DFRobot_AS3935:
         #This function is used to modify WDTH. It is used to increase robustness to disturbers,
         #though will make detection less efficient (see page 19, Fig 20 of datasheet)
         #WDTH register: add 0x01, bits 3:0
-        #default value of 0001
+        #default value of 0010
         #values should only be between 0x00 and 0x0F (0 and 7)
         self.singRegWrite(0x01, 0x0F, wdth & 0x0F)
 
