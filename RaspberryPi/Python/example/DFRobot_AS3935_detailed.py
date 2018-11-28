@@ -69,7 +69,7 @@ sensor.setNoiseFloorLv1(2)
 #noiseLv = sensor.getNoiseFloorLv1()
 
 #used to modify WDTH,alues should only be between 0x00 and 0x0F (0 and 7)
-sensor.setWatchdogThreshold(1)
+sensor.setWatchdogThreshold(2)
 #wtdgThreshold = sensor.getWatchdogThreshold()
 
 #used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)

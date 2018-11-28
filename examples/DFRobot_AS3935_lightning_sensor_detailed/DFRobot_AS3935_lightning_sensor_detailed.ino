@@ -82,7 +82,7 @@ void setup()
   //uint8_t noiseLv = lightning0.getNoiseFloorLvl();
 
 //used to modify WDTH,alues should only be between 0x00 and 0x0F (0 and 7)
-  lightning0.setWatchdogThreshold(1);
+  lightning0.setWatchdogThreshold(2);
   //uint8_t wtdgThreshold = lightning0.getWatchdogThreshold();
 
 //used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)

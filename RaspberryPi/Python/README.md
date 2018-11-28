@@ -120,7 +120,7 @@ def getNoiseFloorLv1(self);
 /*
  * @brief Set an anti-interference rating
  *
- * @param 0~7,More than 7 will use the default value:1
+ * @param 0~7,More than 7 will use the default value:2
  */
 def setWatchdogThreshold(self, wdth);
 
