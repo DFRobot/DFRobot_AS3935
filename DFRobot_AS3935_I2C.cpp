@@ -12,7 +12,10 @@ DFRobot_AS3935_I2C::DFRobot_AS3935_I2C(uint8_t irqx)
 {
     irq = irqx;
     // initalize the IRQ pins
+    // pinMode(irq, OUTPUT);
+    // digitalWrite(irq,1);
     pinMode(irq, INPUT);
+    
 }
 
 void DFRobot_AS3935_I2C::setI2CAddress(uint8_t devAddx)
@@ -34,10 +37,13 @@ void DFRobot_AS3935_I2C::setI2CAddress(uint8_t devAddx)
 uint8_t DFRobot_AS3935_I2C::singRegRead(uint8_t regAdd)
 {
     //        I2C address      Register address   num bytes
-    I2c.read((uint8_t)devAdd, (uint8_t)regAdd, (uint8_t)0x01);    // Use I2C library to read register
-    uint8_t regData = I2c.receive();                            // receive the I2C data
-    return regData;
+    //I2c.read((uint8_t)devAdd, (uint8_t)regAdd, (uint8_t)0x01);    // Use I2C library to read register
+    //uint8_t regData = I2c.receive();                            // receive the I2C data
+    uint8_t buf[1];
+    readReg(regAdd, buf, 1);
+    return buf[0];
 }
+
 
 void DFRobot_AS3935_I2C::singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData)
 {
@@ -48,9 +54,12 @@ void DFRobot_AS3935_I2C::singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t 
     // note: 'DataMask' must be bits targeted for replacement
     // add'l note: this function does NOT shift values into the proper place... they need to be there already
     uint8_t newRegData = ((origRegData & ~dataMask) | (regData & dataMask));
+    uint8_t buf[1];
+    buf[0] = newRegData;
 
     // finally, write the data to the register
-    I2c.write(devAdd, regAdd, newRegData);
+    //I2c.write(devAdd, regAdd, newRegData);
+    writeReg(regAdd, buf, 1);
     //Serial.print("wrt: ");
     //Serial.print(newRegData,HEX);
     //Serial.print(" Act: ");
@@ -65,15 +74,21 @@ int DFRobot_AS3935_I2C::defInit()
 int DFRobot_AS3935_I2C::reset()
 {
     // run PRESET_DEFAULT Direct Command to set all registers in default state
-    int error = I2c.write(devAdd, (uint8_t)0x3C, (uint8_t)0x96);
-    delay(2);                    // wait 2ms to complete
-    return error;
+    //int error = I2c.write(devAdd, (uint8_t)0x3C, (uint8_t)0x96);
+    uint8_t buf[1];
+    buf[0] =  0x96;
+
+    writeReg(0x3c, buf, 1);
+    return 0;
 }
 
 void DFRobot_AS3935_I2C::calRCO()
 {
     // run ALIB_RCO Direct Command to cal internal RCO
-    I2c.write(devAdd, (uint8_t)0x3D, (uint8_t)0x96);
+    //I2c.write(devAdd, (uint8_t)0x3D, (uint8_t)0x96);
+    uint8_t buf[1];
+    buf[0] =  0x96;
+    writeReg(0x3D, buf, 1);
     delay(2);                // wait 2ms to complete
 }
 
@@ -368,4 +383,50 @@ void DFRobot_AS3935_I2C::manualCal(uint8_t capacitance, uint8_t location, uint8_
     Serial.println("AS3935 manual cal complete");
 }
 // a nice function would be to read the last 'x' strike data values.... 
+
+uint8_t DFRobot_AS3935_I2C::begin(void)
+{
+    uint8_t buf[2];
+    Wire.begin();
+    Wire.setClock(400000);
+    DBG("i2c init");
+    if(readReg(0, buf, 2) == 2){
+        DBG("return");
+        return 0;
+    }
+    return 1;
+}
+
+void DFRobot_AS3935_I2C::writeReg(uint8_t reg, void *pBuf, size_t size)
+{
+    if(pBuf == NULL){
+        DBG("pBuf ERROR!! :null pointer");
+    }
+    uint8_t *_pBuf = (uint8_t*)pBuf;
+    Wire.beginTransmission(devAdd);
+    Wire.write(reg);
+    for(size_t i = 0; i < size; i++){
+        Wire.write(_pBuf[i]);
+    }
+    Wire.endTransmission();
+    DBG("i2c write");
+}
+
+size_t DFRobot_AS3935_I2C::readReg(uint8_t reg, void *pBuf, size_t size)
+{
+    if(pBuf == NULL){
+        DBG("pBuf ERROR!!:null pointer");
+        return 0;
+    }
+    uint8_t *_pBuf = (uint8_t*)pBuf;
+    Wire.beginTransmission(devAdd);
+    Wire.write(reg);
+    Wire.endTransmission(false);
+    Wire.requestFrom(devAdd, size);
+    for(size_t i = 0; i < size; i++){
+        _pBuf[i] = Wire.read();
+        DBG(_pBuf[i], HEX);
+    }
+    return size;
+}
 

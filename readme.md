@@ -193,7 +193,8 @@ uint8_t getSpikeRejection(void);
 
 MCU                | Work Well | Work Wrong | Untested  | Remarks
 ------------------ | :----------: | :----------: | :---------: | -----
-Arduino uno |       √      |             |            | 
+Arduino uno |       √      |             |            |
+  esp8266   |       √      |             |            | 
 
 
 ## Credits

@@ -2,21 +2,30 @@
 #define DFRobot_AS3935_I2C_h
 
 #include "Arduino.h"
-#include "avr/pgmspace.h"
-#include "util/delay.h"
 #include "stdlib.h"
-#include "Lib_I2C.h"
+
+#include "Wire.h"
 
 // I2C address
 #define AS3935_ADD1           0x01     // A0=high, A1=low
 #define AS3935_ADD3           0x03     // A0=high, A1=high
 #define AS3935_ADD2           0x02     // A0=low, A1=high
 
+//#define ENABLE_DBG
+#ifdef  ENABLE_DBG
+#define DBG(...){Serial.print("[");Serial.print(__FUNCTION__);\
+                 Serial.print("():");Serial.print(__LINE__);\
+                 Serial.print("]");Serial.print(__VA_ARGS__); Serial.println("");}
+#else
+#define DBG(...)
+#endif
+
 class DFRobot_AS3935_I2C
 {
  public:
     DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx);
     DFRobot_AS3935_I2C(uint8_t irqx);
+    uint8_t begin(void);
     /*! Set i2c address */
     void setI2CAddress(uint8_t devAddx);
     /*! Manual calibration */
@@ -50,11 +59,33 @@ class DFRobot_AS3935_I2C
     
  private:
     uint8_t irq, devAdd;
-    uint8_t singRegRead(uint8_t regAdd);
-    void singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData);
+    uint8_t singRegRead(uint8_t regAdd);//原始I2C数据读取
+    void singRegWrite(uint8_t regAdd, uint8_t dataMask, uint8_t regData);//原始数据发送
     int reset(void);
     void powerDown(void);
     void calRCO(void);
+
+   /**
+    * @brief  Write register value through IIC bus
+    * 
+    * @param reg Register address 8bits
+    * @param pBuf Storage cache to write data in
+    * @param size The length of data to be written
+    */
+    void writeReg(uint8_t reg, void *pBuf, size_t size);
+    //void writeRegNoStop(uint8_t reg, void *pBuf, size_t size)
+
+   /**
+    * @brief Read register value through IIC bus
+    * 
+    * @param reg Register address 8bits
+    * @param pBuf Read data storage cache
+    * @param size Read the length of data
+    * @return Return the read length
+    */
+    size_t readReg(uint8_t reg, void *pBuf, size_t size);
+
+
 };
 
 #endif

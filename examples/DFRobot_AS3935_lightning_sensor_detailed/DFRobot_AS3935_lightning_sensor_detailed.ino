@@ -13,16 +13,22 @@
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V1.0
-   date  2018-11-28
+   version  V1.1
+   date  2021-08-24
 */
 
-#include "Lib_I2C.h"
 #include "DFRobot_AS3935_I2C.h"
 
 volatile int8_t AS3935IsrTrig = 0;
 
-#define IRQ_PIN              2
+
+#if defined(ESP32) || defined(ESP8266)
+#define IRQ_PIN       0 
+#else
+#define IRQ_PIN       2
+#endif
+
+
 
 // Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 #define AS3935_CAPACITANCE   96
@@ -40,18 +46,14 @@ void setup()
   Serial.begin(115200);
   Serial.println("DFRobot AS3935 lightning sensor begin!");
 
-  // Setup for the the I2C library: (enable pullups, set speed to 400kHz)
-  I2c.begin();
-  I2c.pullup(true);
-  I2c.setSpeed(1);
-  delay(2);
-
   lightning0.setI2CAddress(AS3935_ADD3);
-  // Set registers to default
-  if(lightning0.defInit() != 0){
-    Serial.println("I2C init fail");
-    while(1){}  
+
+  while (lightning0.begin() != 0)
+  {
+    Serial.print(".");
   }
+  lightning0.defInit();
+
   // Configure sensor
   lightning0.powerUp();
   
@@ -64,12 +66,18 @@ void setup()
   //lightning0.disturberDis();
 
   lightning0.setIRQOutputSource(0);
+  
+  #if defined(ESP32) || defined(ESP8266)
+  attachInterrupt(digitalPinToInterrupt(IRQ_PIN),AS3935_ISR,RISING);
+  #else
+  attachInterrupt(/*Interrupt No*/0,AS3935_ISR,RISING);
+  #endif
   delay(500);
   //set capacitance
   lightning0.setTuningCaps(AS3935_CAPACITANCE);
   Serial.println("AS3935 manual cal complete");
   
-  // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
+// Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
 //  Connect the IRQ and GND pin to the oscilloscope.
 //  uncomment the following sentences to fine tune the antenna for better performance.
 //  This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
@@ -85,23 +93,20 @@ void setup()
   lightning0.setWatchdogThreshold(2);
   //uint8_t wtdgThreshold = lightning0.getWatchdogThreshold();
 
-//used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)
+  //used to modify SREJ (spike rejection),values should only be between 0x00 and 0x0F (0 and 7)
   lightning0.setSpikeRejection(2);
   //uint8_t spikeRejection = lightning0.getSpikeRejection();
-
-  attachInterrupt(0, AS3935_ISR, RISING);
-
 }
 
 void loop()
 {
   // It does nothing until an interrupt is detected on the IRQ pin.
-  while (AS3935IsrTrig == 0) {}
+  while (AS3935IsrTrig == 0) {delay(1);}
   delay(5);
-
+  
   // Reset interrupt flag
   AS3935IsrTrig = 0;
-
+  
   // Get interrupt source
   uint8_t intSrc = lightning0.getInterruptSrc();
   if (intSrc == 1)
@@ -137,4 +142,3 @@ void AS3935_ISR()
 {
   AS3935IsrTrig = 1;
 }
-

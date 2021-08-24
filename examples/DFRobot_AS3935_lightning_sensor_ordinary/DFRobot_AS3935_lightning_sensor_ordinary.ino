@@ -12,16 +12,19 @@
    Copyright    [DFRobot](http://www.dfrobot.com), 2018
    Copyright    GNU Lesser General Public License
 
-   version  V1.0
-   date  2018-11-28
+   version  V1.1
+   date  2021-08-24
 */
 
-#include "Lib_I2C.h"
 #include "DFRobot_AS3935_I2C.h"
 
 volatile int8_t AS3935IsrTrig = 0;
 
-#define IRQ_PIN              2
+#if defined(ESP32) || defined(ESP8266)
+#define IRQ_PIN       0
+#else
+#define IRQ_PIN       2
+#endif
 
 // Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 #define AS3935_CAPACITANCE   96
@@ -49,17 +52,18 @@ void setup()
   Serial.begin(115200);
   Serial.println("DFRobot AS3935 lightning sensor begin!");
 
-  // Setup for the the I2C library: (enable pullups, set speed to 400kHz)
-  I2c.begin();
-  I2c.pullup(true);
-  I2c.setSpeed(1);
-  delay(2);
-
-  // Set registers to default
-  if(lightning0.defInit() != 0){
-    Serial.println("I2C init fail");
-    while(1){}  
+  while (lightning0.begin() != 0)
+  {
+    Serial.print(".");
   }
+  lightning0.defInit();
+
+  #if defined(ESP32) || defined(ESP8266)
+    attachInterrupt(digitalPinToInterrupt(IRQ_PIN),AS3935_ISR,RISING);
+  #else
+    attachInterrupt(/*Interrupt No*/0,AS3935_ISR,RISING);
+  #endif
+
   // Configure sensor
   lightning0.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
   // Enable interrupt (connect IRQ pin IRQ_PIN: 2, default)
@@ -71,14 +75,12 @@ void setup()
 //  lightning0.setLcoFdiv(0);
 //  lightning0.setIRQOutputSource(3);
 
-  attachInterrupt(0, AS3935_ISR, RISING);
-
 }
 
 void loop()
 {
   // It does nothing until an interrupt is detected on the IRQ pin.
-  while (AS3935IsrTrig == 0) {}
+  while (AS3935IsrTrig == 0) {delay(1);}
   delay(5);
 
   // Reset interrupt flag
