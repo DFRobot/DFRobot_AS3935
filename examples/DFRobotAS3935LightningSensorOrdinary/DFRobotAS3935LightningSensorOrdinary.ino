@@ -1,20 +1,19 @@
 /*!
-   file DFRobot_AS3935_lightning_sensor.ino
-
-   SEN0290 Lightning Sensor
-   This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
-   It can be set as indoor or outdoor mode.
-   The module has three I2C, these addresses are:
-   AS3935_ADD1  0x01   A0 = 1  A1 = 0
-   AS3935_ADD2  0x02   A0 = 0  A1 = 1
-   AS3935_ADD3  0x03   A0 = 1  A1 = 1
-  
-   Copyright    [DFRobot](http://www.dfrobot.com), 2018
-   Copyright    GNU Lesser General Public License
-
-   version  V1.1
-   date  2021-08-24
-*/
+ * @file DFRobot_AS3935_lightning_sensor_ordinary.ino
+ * @brief SEN0290 Lightning Sensor
+ * @n This sensor can detect lightning and display the distance and intensity of the lightning within 40 km
+ * @n It can be set as indoor or outdoor mode.
+ * @n The module has three I2C, these addresses are:
+ * @n  AS3935_ADD1  0x01   A0 = 1  A1 = 0
+ * @n  AS3935_ADD2  0x02   A0 = 0  A1 = 1
+ * @n  AS3935_ADD3  0x03   A0 = 1  A1 = 1
+ * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @license     The MIT License (MIT)
+ * @author [TangJie](jie.tang@dfrobot.com)
+ * @version  V1.0.2
+ * @date  2019-09-28
+ * @url https://github.com/DFRobor/DFRobot_AS3935
+ */
 
 #include "DFRobot_AS3935_I2C.h"
 
@@ -52,8 +51,7 @@ void setup()
   Serial.begin(115200);
   Serial.println("DFRobot AS3935 lightning sensor begin!");
 
-  while (lightning0.begin() != 0)
-  {
+  while (lightning0.begin() != 0){
     Serial.print(".");
   }
   lightning0.defInit();
@@ -88,8 +86,7 @@ void loop()
 
   // Get interrupt source
   uint8_t intSrc = lightning0.getInterruptSrc();
-  if (intSrc == 1)
-  {
+  if (intSrc == 1){
     // Get rid of non-distance data
     uint8_t lightningDistKm = lightning0.getLightningDistKm();
     Serial.println("Lightning occurs!");
@@ -102,18 +99,12 @@ void loop()
     Serial.print("Intensity: ");
     Serial.print(lightningEnergyVal);
     Serial.println("");
-  }
-  else if (intSrc == 2)
-  {
+  }else if (intSrc == 2){
     Serial.println("Disturber discovered!");
-  }
-  else if (intSrc == 3)
-  {
+  }else if (intSrc == 3){
     Serial.println("Noise level too high!");
   }
-
 }
-
 //IRQ handler for AS3935 interrupts
 void AS3935_ISR()
 {
