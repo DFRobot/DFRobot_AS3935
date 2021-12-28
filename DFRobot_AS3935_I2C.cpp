@@ -1,4 +1,4 @@
-#include "DFRobot_AS3935_I2c.h"
+#include "DFRobot_AS3935_I2C.h"
 
 DFRobot_AS3935_I2C::DFRobot_AS3935_I2C(uint8_t irqx, uint8_t devAddx)
 {
