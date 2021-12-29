@@ -106,7 +106,11 @@ void loop()
   }
 }
 //IRQ handler for AS3935 interrupts
+#if defined(ESP32) || defined(ESP8266)
 void IRAM_ATTR AS3935_ISR()
+#else
+void AS3935_ISR()
+#endif
 {
   AS3935IsrTrig = 1;
 }
