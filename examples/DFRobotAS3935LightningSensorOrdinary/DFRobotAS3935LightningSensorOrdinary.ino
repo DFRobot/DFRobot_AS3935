@@ -106,7 +106,7 @@ void loop()
   }
 }
 //IRQ handler for AS3935 interrupts
-void AS3935_ISR()
+void IRAM_ATTR AS3935_ISR()
 {
   AS3935IsrTrig = 1;
 }
