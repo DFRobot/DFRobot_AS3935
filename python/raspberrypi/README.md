@@ -5,7 +5,7 @@
 AS3935 Lightning Sensor can detect lightning and display the distance and intensity of the lightning without the disturbance of electric arc and noise.
 It can be set as indoor or outdoor mode.
 
-![Product Image](./resources/images/SEN0290.png)
+![Product Image](../../resources/images/SEN0290.png)
 
 ## 产品链接（https://www.dfrobot.com/product-1828.html）
 
@@ -33,7 +33,7 @@ Input commands and read data from AS3935 modules
 
 ## Installation
 
-To use the library, first download it to Raspberry Pi, then open the routines folder.To execute a routine demox.py, type Python demox.py on the command line.For example, to execute the control_LEd.py routine, you need to enter:
+要使用这个库，首先将库下载到Raspberry Pi，然后打开例程文件夹。要执行一个例程demox.py，请在命令行中输入python demox.py。例如，要执行control_led.py例程，你需要输入:
 
 ```python
 python DFRobot_AS3935_detailed.py
@@ -57,7 +57,7 @@ python DFRobot_AS3935_detailed.py
 
   '''
     @brief Get mid-range type
-    @return Return to interrupted state
+    @return 返回中断状态
     @retval  0  Unknown src
     @retval  1  Lightning detected
     @retval  2  Disturber

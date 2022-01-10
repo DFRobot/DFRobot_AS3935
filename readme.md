@@ -7,7 +7,7 @@ It can be set as indoor or outdoor mode.
 
 ![Product Image](./resources/images/SEN0290.png)
 
-## product link （https://www.dfrobot.com/product-1828.html）
+## 产品链接（https://www.dfrobot.com/product-1828.html）
 
     SKU：SEN0290
 

@@ -5,7 +5,7 @@
 AS3935雷电传感器可以检测雷电，显示雷电的距离和强度，不受电弧和噪声的干扰
 可设置为室内或室外模式
 
-![Product Image](./resources/images/SEN0290.png)
+![Product Image](../../resources/images/SEN0290.png)
 
 ## 产品链接（https://www.dfrobot.com.cn/goods-1889.html）
 

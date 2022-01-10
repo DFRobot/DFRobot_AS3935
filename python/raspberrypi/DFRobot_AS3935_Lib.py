@@ -1,6 +1,6 @@
 '''!
   @file DFRobot_AS3935_Lib.py
-  @brief Define the DFRobot_AS3935 class infrastructure, the implementation of the base method
+  @brief Define the basic structure of the DFRobot_AS3935 class, the implementation of the basic methods.
   @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tamg@dfrobot.com)
@@ -121,7 +121,7 @@ class DFRobot_AS3935:
 
   '''!
     @brief Get mid-range type
-    @return Return to interrupted state
+    @return 返回中断状态
     @retval  0  Unknown src
     @retval  1  Lightning detected
     @retval  2  Disturber
@@ -245,7 +245,7 @@ class DFRobot_AS3935:
 
   '''！
     @brief read WDTH
-    @return Return interference level
+    @return 返回干扰等级
   '''        
   def get_watchdog_threshold(self):
     #This function is used to read WDTH. It is used to increase robustness to disturbers,
@@ -270,7 +270,7 @@ class DFRobot_AS3935:
 
   '''！
     @brief read SREJ (spike rejection)
-    @return Return SREJ value
+    @return 返回SREJ值
   '''
   def get_spike_rejection(self):
     #This function is used to read SREJ (spike rejection). Similar to the Watchdog threshold,
