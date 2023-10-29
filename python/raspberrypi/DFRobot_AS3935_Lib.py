@@ -33,20 +33,20 @@ class DFRobot_AS3935:
     @param disturber   Enable/disable disturber detection
   '''
   def manual_cal(self, capacitance, location, disturber):
-    self.powerUp()
-    if location == 1:
-      self.setIndoors()
+    self.power_up()
+    if location == 0:
+      self.set_indoors()
     else:
-      self.setOutdoors()
+      self.set_outdoors()
 
     if disturber == 0:
-      self.disturberDis()
+      self.disturber_dis()
     else:
-      self.disturberEn()
+      self.disturber_en()
 
-    self.setIrqOutputSource(0)
+    self.set_irq_output_source(0)
     time.sleep(0.5)
-    self.setTuningCaps(capacitance)
+    self.set_tuning_caps(capacitance)
 
   def set_tuning_caps(self, capVal):
       #Assume only numbers divisible by 8 (because that's all the chip supports)
@@ -74,7 +74,7 @@ class DFRobot_AS3935:
     time.sleep(0.002)
 
   '''!
-    @brief Disturber detection enabled
+    @brief Set to the indoor model
   '''
   def set_indoors(self):
     self.sing_reg_write(0x00, 0x3E, 0x24)
