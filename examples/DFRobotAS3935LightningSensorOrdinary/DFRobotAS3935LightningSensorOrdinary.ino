@@ -68,7 +68,8 @@ void setup()
 
 //  Connect the IRQ and GND pin to the oscilloscope.
 //  uncomment the following sentences to fine tune the antenna for better performance.
-//  This will dispaly the antenna's resonance frequency/16 on IRQ pin (The resonance frequency will be divided by 16 on this pin)
+//  This displays the antenna's resonance frequency/16 on IRQ pin (The resonance 
+//  frequency will be divided by 16 on this pin)
 //  Tuning AS3935_CAPACITANCE to make the frequency within 500/16 kHz ± 3.5%
 //  lightning0.setLcoFdiv(0);
 //  lightning0.setIRQOutputSource(3);
