@@ -12,7 +12,7 @@
  * @author [TangJie](jie.tang@dfrobot.com)
  * @version  V1.0.2
  * @date  2019-09-28
- * @url https://github.com/DFRobor/DFRobot_AS3935
+ * @url https://github.com/DFRobot/DFRobot_AS3935
  */
 
 #include "DFRobot_AS3935_I2C.h"
