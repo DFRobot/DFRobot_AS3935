@@ -19,11 +19,9 @@
 
 volatile int8_t AS3935IsrTrig = 0;
 
-#if defined(ESP32) || defined(ESP8266)
-#define IRQ_PIN       0
-#else
+// Connect the license sensor's IRQ pin to a GPIO pin on the microcontroller
+// then replace the number below with the GPIO pin number
 #define IRQ_PIN       2
-#endif
 
 // Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
 #define AS3935_CAPACITANCE   96
