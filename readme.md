@@ -143,7 +143,7 @@ To use this library, first download the library file, paste it into the \Arduino
   void setOutdoors(void);
 
  /**
-  * @fn setOutdoors
+  * @fn getNoiseFloorLvl
   * @brief Get the noise level
   * @return Return noise level
   */
