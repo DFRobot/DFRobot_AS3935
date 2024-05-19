@@ -19,8 +19,10 @@
 
 volatile int8_t AS3935IsrTrig = 0;
 
-// Connect the license sensor's IRQ pin to a GPIO pin on the microcontroller
-// then replace the number below with the GPIO pin number
+// The Arduino UNO can only use IO2 or IO3 as interrupt pins, whereas the 
+// ESP32 can use all pins as interrupt pins. Connect the lightning sensor's 
+// IRQ pin to a GPIO pin on the microcontroller then replace the number 
+// below with the connected GPIO pin. 
 #define IRQ_PIN       2
 
 // Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
